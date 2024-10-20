@@ -14,6 +14,9 @@ const io = new Server(server, {
   },
 });
 
+// TEST
+app.get("/test", (req, res) => res.send("test success working fine"));
+
 // Methods to generate board login
 const { generateSudoku, generatePuzzbleBoard } = require("./logic");
 
@@ -89,7 +92,7 @@ io.on("connection", (socket) => {
   );
   socket.on("playermove", (state) => playermove(socket, state));
 });
-
-server.listen(3000, () => {
-  console.log("Server running on 3000");
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
 });
