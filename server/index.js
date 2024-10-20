@@ -44,9 +44,6 @@ function creategame(socket, difficultyValue) {
     currentBoardState: puzzleBoard,
   };
 
-  console.log(solutionBoard);
-  console.log(puzzleBoard);
-
   // socket users to same id to emit player moves to all
   socket.join(newGameId);
   socket.emit("gameCreated", { roomId: newGameId, board: room[newGameId] });
