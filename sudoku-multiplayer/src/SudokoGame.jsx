@@ -3,24 +3,55 @@ import { Input, Row, Col, Button, Layout, Flex, Typography } from "antd";
 const { Title } = Typography;
 const { Content } = Layout;
 
-export default function SudokoGame({ roomId, gameboard, socket }) {
+export default function SudokoGame({
+  roomId,
+  gameboard,
+  socket,
+  solutionBoard,
+  initialBoard,
+  onResetCurrentBoardState,
+}) {
   // const initialBoard = Array.from({ length: 9 }, () => Array(9).fill(""));
-  console.log(roomId, gameboard);
 
   const [board, setBoard] = useState(gameboard);
+  console.log("solution", solutionBoard);
+  console.log("initail", initialBoard);
 
   useEffect(() => {
     setBoard(gameboard);
   }, [gameboard]); // Runs only when gameboard prop changes
 
   const playerMoves = function (row, col, val) {
+    if (initialBoard[row][col] != null) return;
     console.log(row, col, val);
-    if (val > 0) {
+    if (val > 0 || val == "") {
       const newBoard = [...board];
       newBoard[row][col] = val;
       setBoard(newBoard);
       socket.emit("playermove", { roomId, board: newBoard });
     }
+  };
+  const handleResetBoard = function () {
+    const userConfirm = confirm("You want to reset the Board :");
+    if (!userConfirm) return;
+    socket.emit("playermove", { roomId, board: initialBoard });
+    onResetCurrentBoardState();
+  };
+
+  const getInputStyle = (rowIndex, colIndex, value) => {
+    const initialValue = initialBoard[rowIndex][colIndex];
+    const solutionValue = solutionBoard[rowIndex][colIndex];
+
+    if (value === "" || value === null) {
+      return { color: "black" }; // Initial empty cell
+    }
+
+    if (value !== initialValue) {
+      console.log(value, initialValue, solutionValue);
+
+      return { color: value == solutionValue ? "blue" : "red" }; // Mismatched values
+    }
+    return { color: "black" }; // Initial values
   };
 
   return (
@@ -64,6 +95,11 @@ export default function SudokoGame({ roomId, gameboard, socket }) {
                         height: "50px",
                         textAlign: "center",
                         fontSize: "24px",
+                        ...getInputStyle(
+                          rowindex,
+                          colindex,
+                          board[rowindex][colindex]
+                        ), // Apply dynamic styling
                       }}
                     />
                   </Col>
@@ -74,7 +110,7 @@ export default function SudokoGame({ roomId, gameboard, socket }) {
         })}
         <Button
           type="primary"
-          // onClick={handleReset}
+          onClick={handleResetBoard}
           style={{ marginTop: "20px" }}
         >
           Reset
