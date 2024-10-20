@@ -14,6 +14,17 @@ const io = new Server(server, {
   },
 });
 
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+    allowedHeaders: "*",
+    credentials: true,
+  })
+);
+
+app.options("*", cors());
+
 // TEST
 app.get("/test", (req, res) => res.send("test success working fine"));
 
