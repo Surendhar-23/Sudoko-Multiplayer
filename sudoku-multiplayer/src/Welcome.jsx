@@ -2,12 +2,19 @@ import { Input, Row, Col, Button, Layout, Flex, Alert, Slider } from "antd";
 import React, { useState } from "react";
 const { Content } = Layout;
 
-export default function Welcome({ socket }) {
+export default function Welcome({ socket, makeConnection }) {
+  const [startGame, setStartGame] = useState(false);
   const [showInputCode, setShowInputCode] = useState(false);
   const [showDifficultyRange, setShowDifficultyRange] = useState(false);
   const [inputRoomId, setInputRoomId] = useState();
   const [diffcultyvalue, setDiffcultyValue] = useState(10);
   const [alertVisible, setAlertVisible] = useState(false);
+
+  const initializeGame = function () {
+    setStartGame(true);
+    makeConnection();
+  };
+
   const joinGame = function () {
     console.log(inputRoomId);
     if (inputRoomId.length == 6 && /^\d+$/.test(inputRoomId)) {
@@ -110,7 +117,7 @@ export default function Welcome({ socket }) {
             </Flex>
           </>
         )}
-        {!showInputCode && !showDifficultyRange && (
+        {startGame ? (
           <Flex gap="18px" style={{ marginBottom: "44px" }}>
             <Button
               color="default"
@@ -127,6 +134,12 @@ export default function Welcome({ socket }) {
               Join Game
             </Button>
           </Flex>
+        ) : (
+          <>
+            <Button color="default" variant="solid" onClick={initializeGame}>
+              Start Game
+            </Button>
+          </>
         )}
       </Content>
     </Layout>

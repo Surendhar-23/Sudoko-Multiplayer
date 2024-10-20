@@ -13,54 +13,51 @@ function App() {
   const [showGame, setShowGame] = useState(false);
   const [initialBoard, setInitialBoard] = useState();
 
-  useEffect(() => {
-    function makeConnection() {
-      const socket = io(socket_url);
-      setMysocket(socket);
-      socket.on("welcome", (arg) => {
-        console.log(arg);
-      });
-      socket.on("gameCreated", (newGameState) => {
-        const {
-          roomId,
-          board: { initialBoard, solutionBoard, currentBoardState },
-        } = newGameState;
+  function makeConnection() {
+    const socket = io(socket_url);
+    setMysocket(socket);
+    socket.on("welcome", (arg) => {
+      console.log(arg);
+    });
+    socket.on("gameCreated", (newGameState) => {
+      const {
+        roomId,
+        board: { initialBoard, solutionBoard, currentBoardState },
+      } = newGameState;
 
-        setRoomId(roomId);
-        setBoard(currentBoardState);
-        setSolutionBoard(solutionBoard);
-        setInitialBoard(initialBoard);
-        setShowGame(true);
-      });
+      setRoomId(roomId);
+      setBoard(currentBoardState);
+      setSolutionBoard(solutionBoard);
+      setInitialBoard(initialBoard);
+      setShowGame(true);
+    });
 
-      socket.on("joinExistingGame", (newGameState) => {
-        const {
-          roomId,
-          board: { initialBoard, solutionBoard, currentBoardState },
-        } = newGameState;
+    socket.on("joinExistingGame", (newGameState) => {
+      const {
+        roomId,
+        board: { initialBoard, solutionBoard, currentBoardState },
+      } = newGameState;
 
-        setRoomId(roomId);
-        setBoard(currentBoardState);
-        setSolutionBoard(solutionBoard);
-        setInitialBoard(initialBoard);
-        setShowGame(true);
-      });
+      setRoomId(roomId);
+      setBoard(currentBoardState);
+      setSolutionBoard(solutionBoard);
+      setInitialBoard(initialBoard);
+      setShowGame(true);
+    });
 
-      socket.on("gamestateupdated", (newGameState) => {
-        const {
-          roomId,
-          board: { currentBoardState },
-        } = newGameState;
+    socket.on("gamestateupdated", (newGameState) => {
+      const {
+        roomId,
+        board: { currentBoardState },
+      } = newGameState;
 
-        setBoard([...currentBoardState]);
-      });
+      setBoard([...currentBoardState]);
+    });
 
-      socket.on("invalidRoom", (infoData) => {
-        alert(infoData);
-      });
-    }
-    makeConnection();
-  }, []);
+    socket.on("invalidRoom", (infoData) => {
+      alert(infoData);
+    });
+  }
 
   // Only for reset current socket board state gamestateupdated not trigger for current socket so board not updated
   // Manual reset state
@@ -80,7 +77,7 @@ function App() {
           onResetCurrentBoardState={resetCurrentBoardState}
         />
       ) : (
-        <Welcome socket={mysocket} />
+        <Welcome socket={mysocket} makeConnection={makeConnection} />
       )}
     </>
   );
