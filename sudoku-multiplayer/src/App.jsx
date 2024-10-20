@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { io } from "socket.io-client";
 import Welcome from "./Welcome";
-import SudokoGame from "./sudokoGame";
+import SudokuGame from "./SudokuGame";
 import { socket_url } from "../apiConfig";
 
 function App() {

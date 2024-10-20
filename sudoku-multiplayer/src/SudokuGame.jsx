@@ -3,7 +3,7 @@ import { Input, Row, Col, Button, Layout, Flex, Typography } from "antd";
 const { Title } = Typography;
 const { Content } = Layout;
 
-export default function SudokoGame({
+export default function SudokuGame({
   roomId,
   gameboard,
   socket,
