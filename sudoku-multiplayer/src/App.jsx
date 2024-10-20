@@ -71,7 +71,7 @@ function App() {
   return (
     <>
       {showGame ? (
-        <SudokoGame
+        <SudokuGame
           roomId={roomId}
           gameboard={board}
           socket={mysocket}
