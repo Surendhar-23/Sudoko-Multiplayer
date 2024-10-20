@@ -117,7 +117,7 @@ export default function Welcome({ socket, makeConnection }) {
             </Flex>
           </>
         )}
-        {startGame ? (
+        {startGame && !showDifficultyRange && !showInputCode && (
           <Flex gap="18px" style={{ marginBottom: "44px" }}>
             <Button
               color="default"
@@ -134,7 +134,8 @@ export default function Welcome({ socket, makeConnection }) {
               Join Game
             </Button>
           </Flex>
-        ) : (
+        )}
+        {!startGame && !showDifficultyRange && !showInputCode && (
           <>
             <Button color="default" variant="solid" onClick={initializeGame}>
               Start Game

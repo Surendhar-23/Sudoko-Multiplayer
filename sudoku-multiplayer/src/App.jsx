@@ -14,7 +14,9 @@ function App() {
   const [initialBoard, setInitialBoard] = useState();
 
   function makeConnection() {
-    const socket = io(socket_url);
+    const socket = io(socket_url, {
+      transports: ["websocket"],
+    });
     setMysocket(socket);
     socket.on("welcome", (arg) => {
       console.log(arg);
