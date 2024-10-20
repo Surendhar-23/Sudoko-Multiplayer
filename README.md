@@ -3,6 +3,10 @@
 
 This project is a multiplayer **Sudoku game** built using **React** and **Socket.io**, where players can join a room and collaboratively solve a Sudoku puzzle in real time. The application allows multiple users to join a game room via a unique room ID and play the game together.
 
+## Live Demo
+
+The project is deployed at: [sudoku-multiplayer](https://sudoku-multiplayer.netlify.app)
+
 ## Features
 
 - **Multiplayer Sudoku**: Multiple players can join the same room and solve the Sudoku puzzle together.
