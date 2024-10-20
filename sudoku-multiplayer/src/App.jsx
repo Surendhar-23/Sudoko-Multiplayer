@@ -3,6 +3,7 @@ import "./App.css";
 import { io } from "socket.io-client";
 import Welcome from "./Welcome";
 import SudokoGame from "./sudokoGame";
+import { socket_url } from "../apiConfig";
 
 function App() {
   const [mysocket, setMysocket] = useState(null);
@@ -14,7 +15,7 @@ function App() {
 
   useEffect(() => {
     function makeConnection() {
-      const socket = io("ws://localhost:3000");
+      const socket = io(socket_url);
       setMysocket(socket);
       socket.on("welcome", (arg) => {
         console.log(arg);

@@ -62,7 +62,6 @@ export default function SudokoGame({
             textAlign: "center",
             fontSize: "36px",
             letterSpacing: "8px",
-            marginBottom: "-6px",
           }}
         >
           {roomId}
@@ -73,6 +72,7 @@ export default function SudokoGame({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <h2>Sudoku Game</h2>
@@ -80,10 +80,25 @@ export default function SudokoGame({
 
         {board.map((row, rowindex) => {
           return (
-            <Row key={rowindex}>
+            <Row
+              key={rowindex}
+              justify="center"
+              style={{ width: "100%", flexWrap: "wrap" }}
+            >
               {row.map((col, colindex) => {
                 return (
-                  <Col key={colindex} style={{ padding: "2px" }}>
+                  <Col
+                    key={colindex}
+                    xs={4}
+                    sm={3}
+                    md={2}
+                    lg={1}
+                    style={{
+                      padding: "2px",
+                      flex: "0 0 auto",
+                      maxWidth: "10vw",
+                    }}
+                  >
                     <Input
                       value={board[rowindex][colindex]}
                       maxLength={1}
@@ -91,10 +106,11 @@ export default function SudokoGame({
                         playerMoves(rowindex, colindex, e.target.value)
                       }
                       style={{
-                        width: "50px",
+                        width: "100%",
                         height: "50px",
                         textAlign: "center",
                         fontSize: "24px",
+                        fontWeight: 500,
                         ...getInputStyle(
                           rowindex,
                           colindex,
@@ -111,7 +127,7 @@ export default function SudokoGame({
         <Button
           type="primary"
           onClick={handleResetBoard}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px", fontSize: "18px", width: "100px" }}
         >
           Reset
         </Button>
